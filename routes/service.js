@@ -9,3 +9,4 @@ router.post('/test', services.test);
 module.exports = router;
 //rutas de Desafios
 router.post('/divisas',services.divisas);
+router.post('/interes', services.interes);

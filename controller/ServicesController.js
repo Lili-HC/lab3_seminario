@@ -11,7 +11,7 @@ class ServicesController {
     } 
     divisas(req, res)
     {
-        var param=req.body;
+        let param=req.body;
         if(param.moneOriginal == null){
             res.status(200).json({msn: 'Es necesario el parametro moneOriginal'});
             return;
@@ -88,7 +88,31 @@ class ServicesController {
         let cantExactaDivisa=parseFloat(param.cantidad*(valorCambio/valorOriginal));
         let cadenaFinal = cantExactaDivisa +" "+ param.moneCambio;
         res.status(200).json({msn: cadenaFinal});
-    }     
+    }    
+    interes(req, res) {
+        let param=req.body;
+        if(param.montoSoli == null){
+            res.status(200).json({msn: 'Es necesario el parametro montoSoli'});
+            return;
+        }
+        if(param.interesAnual == null){
+            res.status(200).json({msn: 'Es necesario el parametro interesAnual'});
+            return;
+        }
+        if(param.tiempoPago == null){
+            res.status(200).json({msn: 'Es necesario el parametro tiempoPago'});
+            return;
+        }
+        param.montoSoli = param.montoSoli.trim();
+        param.interesAnual = param.interesAnual.trim();
+        param.tiempoPago = param.tiempoPago.trim();
+        
+        const c0 = parseFloat(param.montoSoli);
+        const i = parseFloat(param.interesAnual/100);
+        const n = parseInt(param.tiempoPago);
+        let montoFinal=parseFloat(c0*Math.pow((1+i),n));
+        res.status(200).json({msn: montoFinal});
+    }
 }
 module.exports = ServicesController;
     
